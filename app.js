@@ -3,8 +3,9 @@ function getComputerChoice(){
     return choices[Math.floor(Math.random() * choices.length)]; 
 }
 
-let computerSelection = getComputerChoice(); 
-let playerSelection = prompt("Choose: (rock)(paper) or (scissors)").toLowerCase()
+
+let playerSelection = prompt("Choose: (rock)(paper) or (scissors)"); 
+let pSelectionLowerCase = playerSelection.toLowerCase(); 
 
 function playSingleRound(player, computer){
     let result = ''; 
@@ -14,11 +15,11 @@ function playSingleRound(player, computer){
         switch(player){
             case "rock":
                 console.log(computer); 
-                result = (computer === 'paper')? 'Computer Wins!' : 'You Won!'
+                result = (computer === 'paper')? 'Computer Wins!' : 'You Win!'
                 break; 
             case "paper":
                 console.log(computer); 
-                result = (computer === 'rock')? 'You Win!' : 'You Lose!'
+                result = (computer === 'rock')? 'You Win!' : 'Computer Wins!'
                 break; 
             case "scissors":
                 console.log(computer); 
@@ -29,4 +30,29 @@ function playSingleRound(player, computer){
     return result; 
 }
 
-console.log(playSingleRound(playerSelection, computerSelection))
+
+
+function playGame(callback){
+    let playerCounter = 0; 
+    let computerCounter = 0; 
+    for(let i = 1; i <= 5; i++){
+        let result = callback(pSelectionLowerCase, getComputerChoice())
+        if( result === "That's a Tie!"){
+            console.log(result)
+            continue;  
+        }
+        else if (result === "You Win!"){
+            console.log(result)
+            ++playerCounter; 
+        } 
+        else ++computerCounter; 
+        console.log(result)
+    }
+    if(playerCounter === computerCounter){
+        return `Tie Game! ${playerCounter} | ${computerCounter}`
+    } else if (playerCounter > computerCounter){
+        return `Player wins! ${playerCounter} | ${computerCounter}`
+    } else 
+    return `Computer wins! ${computerCounter} | ${playerCounter}`
+}
+console.log(playGame(playSingleRound))
